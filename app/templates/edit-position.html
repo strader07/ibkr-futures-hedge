@@ -1,0 +1,139 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} New position {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<style type="text/css">
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt--7">
+
+      <div class="row">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <!-- Card header -->
+            <form method="POST" action="/edit-position/{{pk}}" id="">
+              {% csrf_token %}
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col-7">
+                    <h3 class="text-primary mb-0">Edit position</h3>
+                  </div>
+                  <div class="col-5 text-right">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Cancel</a>
+                    <button type="submit" class="btn btn-sm btn-primary" id="btnSavePosition">Save</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="form-group col">
+                        <label for="name" class="form-control-label">Name</label>
+                        <input class="form-control" type="text" value="{{position.name}}" id="name" name="name" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="symbol" class="form-control-label">Symbol</label>
+                          <input class="form-control" type="text" value="{{position.symbol}}" id="symbol" name="symbol" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="num_contract" class="form-control-label"># Contracts to Hedge</label>
+                          <input class="form-control" type="number" value={{position.num_contract}} id="num_contract" name="num_contract" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="tick" class="form-control-label">Tick Size</label>
+                          <input class="form-control" type="number" value={{position.tick}} id="tick" name="tick" step="any" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="form-group col">
+                        <label for="long_dpp" class="form-control-label">Designated Price Point for Long Hedge</label>
+                        <input class="form-control" type="number" value={{position.long_dpp}} id="long_dpp" name="long_dpp" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="long_dpp_up" class="form-control-label"># Ticks above DPP for Long Entry</label>
+                          <input class="form-control" type="number" value={{position.long_dpp_up}} id="long_dpp_up" name="long_dpp_up" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="long_dpp_dn" class="form-control-label"># Ticks below DPP for Long Entry</label>
+                          <input class="form-control" type="number" value={{position.long_dpp_dn}} id="long_dpp_dn" name="long_dpp_dn" step="any" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="form-group col">
+                        <label for="short_dpp" class="form-control-label">Designated Price Point for Short Hedge</label>
+                        <input class="form-control" type="number" value={{position.short_dpp}} id="short_dpp" name="short_dpp" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="short_dpp_up" class="form-control-label"># Ticks above DPP for Short Entry</label>
+                          <input class="form-control" type="number" value={{position.short_dpp_up}} id="short_dpp_up" name="short_dpp_up" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col">
+                          <label for="short_dpp_dn" class="form-control-label"># Ticks below DPP for Short Entry</label>
+                          <input class="form-control" type="number" value={{position.short_dpp_dn}} id="short_dpp_dn" name="short_dpp_dn" step="any" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" {% if position.is_active %}checked{% endif %}>
+                          <label class="custom-control-label" for="is_active">Is active?</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+
+{% block javascripts %}
+<script>
+</script>
+{% endblock javascripts %}
+

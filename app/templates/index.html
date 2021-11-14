@@ -1,0 +1,149 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<style type="text/css">
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          {% for message in messages %}
+          {% if message.tags == 'error' %}
+          <div class="toast notification alert alert-danger alert-dismissible border-0 fade show" role="alert" data-delay="3000">
+          
+            <span class="alert-icon border-0"><i class="ni ni-like-2"></i></span>
+            <span class="alert-text border-0">
+              <strong>Error!</strong>&nbsp;&nbsp; {{ message }}
+            </span>
+            <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% elif message.tags == 'info' %}
+          <div class="toast notification alert alert-info alert-dismissible border-0 fade show" role="alert" data-delay="2000">
+          
+            <span class="alert-icon border-0"><i class="ni ni-like-2"></i></span>
+            <span class="alert-text border-0">
+              <strong>Success!</strong>&nbsp;&nbsp; {{ message }}
+            </span>
+            <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt--7">
+
+      <div class="row">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <!-- Card header -->
+              <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                  <div class="col-7">
+                    <h3 class="text-primary mb-0">Positions to Hedge</h3>
+                  </div>
+                  <div class="col-5 text-right">
+                    <a href="/new-position/" class="btn btn-primary btn-sm" role="button" aria-pressed="true">New</a>
+                    <a href="/del-positions/" class="btn btn-danger btn-sm" role="button" aria-pressed="true" onclick="return confirmDeleteAll();">Del all</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Name</th>
+                        <th>Is Active</th>
+                        <th>Product</th>
+                        <th># Contract</th>
+                        <th>Tick Size</th>
+                        <th>Long DPP ($)</th>
+                        <th># Tick + Long</th>
+                        <th># Tick - Long</th>
+                        <th>Short DPP ($)</th>
+                        <th># Tick + Short</th>
+                        <th># Tick - Short</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in positions %}
+                        <tr>
+                          <td>{{ item.name }}</td>
+                          <td>
+                            <div style="height: 25px;">
+                              <label class="custom-toggle" style="margin-bottom: 0px;">
+                                <input type="checkbox" class="custom-control-input" name="is_active-{{item.id}}" {% if item.is_active %}checked{% endif %} disabled>
+                                <span class="custom-toggle-slider rounded-circle">&nbsp;{% if item.is_active %}Yes{% endif %}</span>
+                              </label>
+                            </div>
+                          </td>
+                          <td>{{ item.symbol }}</td>
+                          <td>{{ item.num_contract }}</td>
+                          <td>{{ item.tick }}</td>
+                          <td>{{ item.long_dpp }}</td>
+                          <td>{{ item.long_dpp_up }}</td>
+                          <td>{{ item.long_dpp_dn }}</td>
+                          <td>{{ item.short_dpp }}</td>
+                          <td>{{ item.short_dpp_up }}</td>
+                          <td>{{ item.short_dpp_dn }}</td>
+                          <td>
+                            <a href="/edit-position/{{item.id}}" class="btn-primary btn-sm" role="button" aria-pressed="true">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <span>&nbsp;</span>
+                            <a href="/del-position/{{item.id}}" class="btn-danger btn-sm" role="button" aria-pressed="true" onclick="return confirmDeleteOne();">
+                              <i class="fas fa-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+
+{% block javascripts %}
+<script>
+  $(function () {
+    $('.toast').toast('show');
+  });
+
+  function confirmDeleteOne() {
+    return confirm("Are you sure you want to delete an item?");
+  }
+  function confirmDeleteAll() {
+    return confirm("Are you sure you want to delete all positions?");
+  }
+</script>
+
+{% endblock javascripts %}
+
